@@ -10,6 +10,5 @@ This command-line application uses Node.js, Inquirer and MySQL to manage a compa
 
 ## Images
 
-![Screenshot](./assets/12-sql-homework-demo-01.png)
 
 ### Video Link

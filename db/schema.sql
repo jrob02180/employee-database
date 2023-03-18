@@ -12,6 +12,8 @@ CREATE TABLE role (
     title VARCHAR(30) NOT NULL,
     salary DECIMAL NOT NULL,
     dept_id INT NOT NULL
+    FOREIGN KEY (dept_id)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE employee (
@@ -21,3 +23,4 @@ CREATE TABLE employee (
     role_id INT NOT NULL,
     manager_id INT
 );
+
