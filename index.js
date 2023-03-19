@@ -48,7 +48,7 @@ function viewDept() {
 }
 
 function viewRoles() {
-    db.query("SELECT * FROM roles", (err, data) => {
+    db.query("SELECT * FROM roles JOIN department ON roles.dept_id = department.id", (err, data) => {
         console.table(data)
         init()
     })
@@ -70,7 +70,7 @@ function addDept() {
         }
     ]).then(response => {
         db.query("INSERT INTO department (dept_name) VALUES(?)", [response.newDept], err => {
-            console.log('Department created successfully!')
+            console.log('Department created successfully.')
             viewDept()
         })
     })
@@ -95,6 +95,7 @@ function addRole() {
         }
     ]).then(response => {
         db.query("INSERT INTO roles (title, salary, dept_id) VALUES(?, ?, ?)", [response.newRole, response.newSalary, response.deptName], err => {
+            console.log('New role added successfully.')
             viewRoles()
         })
     })
@@ -126,6 +127,7 @@ function addEmployee() {
     ]
     ).then(response => {
         db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [response.firstName, response.lastName, response.role, response.manager], err => {
+            console.log('New employee added successfully.')
             viewEmployees()
         })
     })
@@ -145,6 +147,7 @@ function updateRole() {
         }
     ]).then(response => {
         db.query("UPDATE employee SET role_id = ? WHERE employee.id = ?)", [response.employeeRole, response.newRole], err => {
+            console.log('Role has been updated succesfully.')
             viewRoles()
         })
     })
