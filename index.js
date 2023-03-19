@@ -48,7 +48,7 @@ function viewDept() {
 }
 
 function viewRoles() {
-    db.query("SELECT * FROM roles JOIN department ON roles.dept_id = department.id", (err, data) => {
+    db.query("SELECT roles.id, roles.title, department.dept_name, roles.salary FROM roles JOIN department ON roles.dept_id = department.id", (err, data) => {
         console.table(data)
         init()
     })
