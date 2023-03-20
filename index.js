@@ -55,7 +55,7 @@ function viewRoles() {
 }
 
 function viewEmployees() {
-    db.query("SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.dept_name, roles.salary, CONCAT(employee.first_name, ' ', employee_last name) AS manager FROM employee JOIN roles ON roles.id = employee.role_id JOIN department ON department.id = roles.dept_id JOIN employee ON employee.id = employee.manager_id ", (err, data) => {
+    db.query("SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.dept_name, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee JOIN roles ON roles.id = employee.role_id JOIN department ON department.id = roles.dept_id JOIN employee manager ON employee.manager_id = manager.id ", (err, data) => {
         console.table(data)
         init()
     })
