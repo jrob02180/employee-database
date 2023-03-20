@@ -55,7 +55,7 @@ function viewRoles() {
 }
 
 function viewEmployees() {
-    db.query("SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.dept_name, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee JOIN roles ON roles.id = employee.role_id JOIN department ON department.id = roles.dept_id JOIN employee manager ON employee.manager_id = manager.id ", (err, data) => {
+    db.query("SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.dept_name, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN roles ON roles.id = employee.role_id JOIN department ON department.id = roles.dept_id LEFT JOIN employee manager ON employee.manager_id = manager.id ", (err, data) => {
         console.table(data)
         init()
     })
@@ -70,7 +70,7 @@ function addDept() {
         }
     ]).then(response => {
         db.query("INSERT INTO department (dept_name) VALUES(?)", [response.newDept], err => {
-            console.log('Department created successfully.')
+            console.log(`Created ${response.newDept} department successfully.`)
             viewDept()
         })
     })
@@ -89,13 +89,14 @@ function addRole() {
             message: "What is the salary of the new role?"
         },
         {
-            type: "input",
+            type: "list",
             name: "deptName",
             message: "Which department does the role belong to?",
+            choices: ["Sales", "Engineering", "Finance", "Legal", ""] 
         }
     ]).then(response => {
         db.query("INSERT INTO roles (title, salary, dept_id) VALUES(?, ?, ?)", [response.newRole, response.newSalary, response.deptName], err => {
-            console.log('New role added successfully.')
+            console.log(`Added ${response.newRole} successfully.`)
             viewRoles()
         })
     })
