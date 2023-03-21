@@ -69,7 +69,8 @@ function addDept() {
             message: "What is the name of the new deparment?"
         }
     ]).then(response => {
-        db.query("INSERT INTO department (dept_name) VALUES(?)", [response.newDept], err => {
+        db.query("INSERT INTO department (dept_name) VALUES(?)", [response.newDept], (error) => {
+            if (error) throw error;
             console.log(`Created ${response.newDept} department successfully.`)
             viewDept()
         })
@@ -89,13 +90,13 @@ function addRole() {
             message: "What is the salary of the new role?"
         },
         {
-            type: "list",
+            type: "input",
             name: "deptName",
-            message: "Which department does the role belong to?",
-            choices: ["Sales", "Engineering", "Finance", "Legal", ""] 
+            message: "Which department ID does the role belong to?",
         }
     ]).then(response => {
-        db.query("INSERT INTO roles (title, salary, dept_id) VALUES(?, ?, ?)", [response.newRole, response.newSalary, response.deptName], err => {
+        db.query("INSERT INTO roles (title, salary, dept_id) VALUES(?, ?, ?)", [response.newRole, response.newSalary, response.deptName], (error) => {
+            if (error) throw error;
             console.log(`Added ${response.newRole} successfully.`)
             viewRoles()
         })
@@ -117,17 +118,17 @@ function addEmployee() {
         {
             type: "input",
             name: "role",
-            message: "What is the employees's role?"
+            message: "What is the employees's role ID?"
         },
         {
-            type: "list",
+            type: "input",
             name: "manager",
-            message: "Who is the employee's manager?",
-            choices: ["None", "John Doe", "Mike Chan", "Ashley Rodriguez", "Kevin Tupik", "Kunal Singh", "Malia Brown", "Sarah Lourd", "Tom Allen"]
+            message: "What is the manager's ID?",
         }
     ]
     ).then(response => {
-        db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [response.firstName, response.lastName, response.role, response.manager], err => {
+        db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [response.firstName, response.lastName, response.role, response.manager], (error) => {
+            if (error) throw error;
             console.log('New employee added successfully.')
             viewEmployees()
         })
@@ -139,15 +140,16 @@ function updateRole() {
         {
             type: "input",
             name: "employeeRole",
-            message: "Which employee's role do you want to update?"
+            message: "Which employee's role do you want to update? (Please enter employee ID"
         },
         {
             type: "input",
             name: "newRole",
-            message: "Which role do you want to assign the selected employee?"
+            message: "Which role do you want to assign the selected employee? (Please enter role ID"
         }
     ]).then(response => {
-        db.query("UPDATE employee SET role_id = ? WHERE employee.id = ?)", [response.employeeRole, response.newRole], err => {
+        db.query("UPDATE employee SET role_id = ? WHERE employee.id = ?)", [response.employeeRole, response.newRole], (error) => {
+            if (error) throw error;
             console.log('Role has been updated succesfully.')
             viewRoles()
         })
