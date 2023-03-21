@@ -5,6 +5,7 @@ db.connect(() => {
     init()
 });
 
+//  Funtion to initialize menu questions
 function init() {
     inquirer.prompt([
         {
@@ -39,7 +40,7 @@ function init() {
             }
         })
 }
-
+//  Functions to view tables
 function viewDept() {
     db.query("SELECT * FROM department", (err, data) => {
         console.table(data)
@@ -61,6 +62,7 @@ function viewEmployees() {
     })
 }
 
+//  Add a new department
 function addDept() {
     inquirer.prompt([
         {
@@ -77,6 +79,7 @@ function addDept() {
     })
 }
 
+//  Add a new role
 function addRole() {
     inquirer.prompt([
         {
@@ -103,6 +106,7 @@ function addRole() {
     })
 }
 
+//  Add an employee to the database
 function addEmployee() {
     inquirer.prompt([
         {
@@ -135,23 +139,24 @@ function addEmployee() {
     })
 }
 
+// Update an employee's role
 function updateRole() {
     inquirer.prompt([
         {
             type: "input",
             name: "employeeRole",
-            message: "Which employee's role do you want to update? (Please enter employee ID"
+            message: "Which employee's role do you want to update? (Please enter employee ID)"
         },
         {
             type: "input",
             name: "newRole",
-            message: "Which role do you want to assign the selected employee? (Please enter role ID"
+            message: "Which role do you want to assign the selected employee? (Please enter role ID)"
         }
     ]).then(response => {
-        db.query("UPDATE employee SET role_id = ? WHERE employee.id = ?)", [response.employeeRole, response.newRole], (error) => {
+        db.query("UPDATE employee SET role_id = ? WHERE employee.id = ?", [response.newRole, response.employeeRole], (error) => {
             if (error) throw error;
             console.log('Role has been updated succesfully.')
-            viewRoles()
+            viewEmployees()
         })
     })
 }
